@@ -2,9 +2,13 @@ use bevy::prelude::*;
 
 mod state;
 mod plugins;
+mod models;
+
+mod tests;
 
 use crate::state::AppState;
 use crate::plugins::{main_menu_plugin::MainMenuPlugin, in_game_plugin::InGamePlugin};
+use crate::plugins::player_plugin::PlayerPlugin;
 
 fn main() {
     App::new()
@@ -22,6 +26,7 @@ fn main() {
         .add_state(AppState::MainMenu)
         .add_plugin(MainMenuPlugin)
         .add_plugin(InGamePlugin)
+        .add_plugin(PlayerPlugin)
         .run();
 }
 
