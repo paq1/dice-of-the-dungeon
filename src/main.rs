@@ -1,5 +1,11 @@
 use bevy::prelude::*;
 
+mod state;
+mod plugins;
+
+use crate::state::AppState;
+use crate::plugins::{main_menu_plugin::MainMenuPlugin, in_game_plugin::InGamePlugin};
+
 fn main() {
     App::new()
         .insert_resource(ClearColor(Color::rgb(0.04, 0.04, 0.04)))
@@ -12,7 +18,10 @@ fn main() {
             }
         )
         .add_plugins(DefaultPlugins)
-        .add_startup_system(startup_system) // todo add startup system
+        .add_startup_system(startup_system)
+        .add_state(AppState::MainMenu)
+        .add_plugin(MainMenuPlugin)
+        .add_plugin(InGamePlugin)
         .run();
 }
 
