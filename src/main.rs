@@ -1,4 +1,6 @@
 use bevy::prelude::*;
+use crate::models::stat_player::StatsPlayer;
+use crate::models::win_size::WinSize;
 
 mod state;
 mod plugins;
@@ -23,7 +25,7 @@ fn main() {
         )
         .add_plugins(DefaultPlugins)
         .add_startup_system(startup_system)
-        .add_state(AppState::MainMenu)
+        .add_state(AppState::InGame) // todo set MainMenu
         .add_plugin(MainMenuPlugin)
         .add_plugin(InGamePlugin)
         .add_plugin(PlayerPlugin)
@@ -31,8 +33,16 @@ fn main() {
 }
 
 fn startup_system(
-    mut commands: Commands
+    mut commands: Commands,
+    windows: Res<Windows>
 ) {
     // camera
     commands.spawn_bundle(OrthographicCameraBundle::new_2d());
+
+    let window = windows.get_primary().unwrap();
+    let (win_w, win_h) = (window.width(), window.height());
+    commands.insert_resource(WinSize {width: win_w, height: win_h});
+
+    commands
+        .insert_resource(StatsPlayer::default());
 }
